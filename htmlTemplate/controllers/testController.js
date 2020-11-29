@@ -26,6 +26,31 @@ function addPropertiesToTbl(properties, table) {
     }
 }
 
+function addRebuildButton() {
+    sce_props = collectAllScenarioProperties()
+    for (var key in sce_props) {
+        if (key == "Job"){
+            button = $("#rebuild")
+            rebuild_url = sce_props[key] + "rebuild/parameterized"
+            button.click(function(){
+                                window.location.href=rebuild_url;
+                        })
+        }
+    }
+}
+
+function addJenkinsConsoleButton() {
+    sce_props = collectAllScenarioProperties()
+    for (var key in sce_props) {
+        if (key == "Job"){
+            button = $("#jenkins_console")
+            console_url = sce_props[key] + "console"
+            button.click(function(){
+                                window.location.href=console_url;
+                        })
+        }
+    }
+}
 
 function setCustomProperties(currentTest,element) {
     addPropertiesToTbl(currentTest.properties, $(element).find("#propTbl > tbody"));
@@ -212,6 +237,8 @@ function testController(element) {
     setFixedProperties(currentTest,element);
     setCustomProperties(currentTest,element);
     setParameters(currentTest,element);
+    addRebuildButton()
+    addJenkinsConsoleButton()
     setReportElements($(element).find("#detailsDiv"), test.reportElements);
 
 }

@@ -14,12 +14,10 @@ function appendTestsToSumTable(tests, table) {
     var suiteName = null;
     var suites = new Array();
     $(tests).each(function() {
-        if (suiteName !== null && suiteName !== this.suiteName) {
-            //TODO : Handle same scenario name in different machines
-            suites.push({"name": suiteName, "duration": duration, "success": success, "error": error, "failure": failure, "warning": warning});
-            success = error = failure = warning = duration = 0;
-        }
+        testName = this.name
         suiteName = this.suiteName;
+	className = this.className
+        success = error = failure = warning = 0
         switch (this.status) {
             case "success":
                 success++;
@@ -35,20 +33,20 @@ function appendTestsToSumTable(tests, table) {
                 break;
         }
         duration += this.duration * 1;
+        suites.push({"name": testName, "duration": this.duration, "success": success, "error": error, "failure": failure, "warning": warning, "uid":this.uid, "className": className});
 
 
     });
     //The last scenario
-    suites.push({"name": suiteName, "duration": duration, "success": success, "error": error, "failure": failure, "warning": warning});
     var total = {"tests": 0, "duration": 0, "success": 0, "error": 0, "failure": 0, "warning": 0};
 
     $(suites).each(function() {
-        var durInSec = Math.round(this.duration/1000);
-        var durationHour = Math.floor(((durInSec % 31536000) % 86400) / 3600);
+        var durInSec = Math.round(this.duration);
+	    var durationHour = Math.floor(((durInSec % 31536000) % 86400) / 3600);
         var durationMin = Math.floor((((durInSec % 31536000) % 86400) % 3600) / 60);
         var durationSec = (((durInSec % 31536000) % 86400) % 3600) % 60;
         var tr = $('<tr>');
-        var a = $("<a>").text(this.name).attr("href","tree.html?node="+this.name);
+        var a = $("<a>").text(this.className + " :: " + this.name).attr("href","tests/test_"+this.uid+"/test.html");
         tr.append($('<td>').append(a));
         var tests = this.success + this.error + this.failure + this.warning * 1;
         tr.append($('<td>').text(tests));
@@ -69,7 +67,7 @@ function appendTestsToSumTable(tests, table) {
     var tr = $('<tr>');
     tr.append($('<td>').text("Total"));
     tr.append($('<td>').text(total.tests));
-    durInSec = Math.round(total.duration/1000);
+    durInSec = Math.round(total.duration);
     durationHour = Math.floor(((durInSec % 31536000) % 86400) / 3600);
     durationMin = Math.floor((((durInSec % 31536000) % 86400) % 3600) / 60);
     durationSec = (((durInSec % 31536000) % 86400) % 3600) % 60;
