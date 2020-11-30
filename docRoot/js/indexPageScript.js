@@ -153,7 +153,7 @@ function populateTable() {
 			sPaginationType: "full_numbers",
 			iDisplayLength: 25,
 			select: true,
-			columnDefs: [
+						columnDefs: [
 				{
 					// Alows missing values. Important for execution properties in which not all of the execution must have all the properties.
 					targets: "_all",
@@ -168,11 +168,22 @@ function populateTable() {
 					"render": function (data, type, row) { 
 						return '<a target="_blank" href="' + row[2] + '">'+ data[1] + '</a>';
 					}
+				},{
+					// The link column is no longer needed since we are using the value in the description column
+					// The link column is no longer needed since we are using the value in the description column
+					targets: 2,
+                    visible: false
 				},
 				{
 					// The link column is no longer needed since we are using the value in the description column
-					targets: 2,
-					visible: false
+					// The link column is no longer needed since we are using the value in the description column
+					targets: '_all',
+                    "render": function (data, type, row, meta) {
+						if (String(data).includes("http"))
+							return '<a target="_blank" href="'+data+'">Link</a>';
+						else
+							return data
+                    }   
 				}],
 			"fnCreatedRow": function (nRow, aData, iDataIndex) {
 				// Adding attributes to the row. Especially useful for keeping the selected rows after refresh.
