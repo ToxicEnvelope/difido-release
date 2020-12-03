@@ -12,7 +12,6 @@
 					"long_prop": {
 						"match": "long_*",
 						"match_mapping_type": "string",
-						
 						"mapping": {
 							"type": "long",
 							"index": false
