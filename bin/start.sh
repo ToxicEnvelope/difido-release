@@ -6,7 +6,7 @@
 #=======================================
 
 # The port to use
-readonly PORT=8080
+readonly PORT=8088
 
 readonly HOST=0.0.0.0
 
@@ -32,7 +32,7 @@ DEBUG=""
 cd "$(dirname "$0")"/..
 
 # Launching the server
-java $DEBUG -Xms256m -Xmx8g -Dserver.address=$HOST -Dserver.port=$PORT -Dlogging.level.org.springframework.web=ERROR -Dlogging.level.il.co.topq.report=$LOGGING_LEVEL -cp lib/difido-server.jar -Dloader.path=plugin/ org.springframework.boot.loader.PropertiesLauncher
+java $DEBUG -Xms512m -Xmx8g -Dserver.address=$HOST -Dserver.port=$PORT -Dlogging.level.org.springframework.web=ERROR -Dlogging.level.il.co.topq.report=$LOGGING_LEVEL -cp lib/difido-server.jar -Dloader.path=plugin/ org.springframework.boot.loader.PropertiesLauncher
 
 
 
